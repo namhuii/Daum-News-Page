@@ -11,13 +11,19 @@ doc = BeautifulSoup(result.text, 'html.parser')
 review_list = doc.select('div.score_result > ul > li')
 
 for i, one in enumerate(review_list):
-    print('#### USER -> {} ############################'.format(i+1))
+    print('#### USER -> {} ########################################'.format(i+1))
 
     # 평점 정보 수집
     score = one.select('div.star_score > em')[0].get_text()
 
     # 리뷰 정보 수집
-    review = one.select('div.score_reple > p > span') #[0].get_text().strip()
+    review = one.select('div.score_reple > p > span')[-1].get_text().strip()
+
+    # 리뷰 정보 수집
+    # [리뷰]
+    # [관렴객, 리뷰]
+    # [관람객,스포일러, 리뷰]
+
     # strip은 공백 없이 글자만
 
     # review -> +관람객 list 길이 2 or 1        -> index [1]
@@ -28,10 +34,7 @@ for i, one in enumerate(review_list):
     # elif len(review) == 1:
     # review_txt = review[0].get_text().strip()
 
-    j = 0
-    if len(review) == 2:  # +관람객
-        j = 1
-    review_txt = review[j].get_text().strip()
+
 
     # 작성자(닉네임) 정보 수집
     original_writer = one.select('div.score_reple dt em')[0].get_text().strip()
@@ -47,7 +50,7 @@ for i, one in enumerate(review_list):
     date = original_date[:10]  # yyyy.MM.dd 전처리 코드 작성
 
 
-    print(':: REVIEW -> {}'.format(review_txt))
+    print(':: REVIEW -> {}'.format(review))
     print(':: WRITER -> {}'.format(writer))
     print(':: DATE -> {}'.format(date))
     print(':: SCORE -> {}'.format(score))
